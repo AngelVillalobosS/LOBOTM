@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOBO - Gestión Profesional de Torneos Universitarios</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #FFC107;     /* Vibrant yellow (main color) */
+            --secondary: #FFA000;   /* Deep golden yellow */
+            --accent: #D32F2F;      /* Rich red (accent color) */
+            --dark: #212121;        /* Dark gray (for text/dark elements) */
+            --light: #a58210;       /* Pale yellow (light backgrounds) */
+            --white: #FFFFFF;
+            --black: #000000;
+            --gray: #f5f5f5;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: var(--white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 24px;
+            color: var(--dark);
+        }
+        
+        .logo-icon {
+            border: #222222 2px solid;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        .cta-button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 16px;
+        }
+        
+        .cta-button:hover {
+            background: var(--accent);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--white) 0%, var(--gray) 100%);
+            padding: 160px 0 80px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-content {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+        }
+        
+        .hero-text {
+            flex: 1;
+            max-width: 600px;
+        }
+        
+        .hero-text h1 {
+            font-size: 48px;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+        
+        .hero-text h1 span {
+            color: var(--primary);
+        }
+        
+        .hero-text p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            color: var(--dark);
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .secondary-button {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 16px;
+        }
+        
+        .secondary-button:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .hero-image {
+            flex: 1;
+            position: relative;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .phone-mockup {
+            width: 280px;
+            height: auto;
+            border-radius: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            z-index: 2;
+        }
+        
+        .shape {
+            position: absolute;
+            z-index: 1;
+        }
+        
+        .shape-1 {
+            width: 400px;
+            height: 400px;
+            background: var(--primary);
+            border-radius: 50%;
+            top: -100px;
+            right: -100px;
+            opacity: 0.1;
+        }
+        
+        .shape-2 {
+            width: 300px;
+            height: 300px;
+            border: 20px solid var(--accent);
+            border-radius: 50%;
+            bottom: -50px;
+            left: -50px;
+            opacity: 0.1;
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 100px 0;
+            background: var(--white);
+        }
+        
+        .section-title {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 60px;
+        }
+        
+        .section-title h2 {
+            font-size: 36px;
+            color: var(--dark);
+            margin-bottom: 20px;
+        }
+        
+        .section-title p {
+            font-size: 18px;
+            color: var(--dark);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .feature-icon {
+            background: rgba(125, 186, 132, 0.1);
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+        
+        .feature-icon i {
+            font-size: 30px;
+            color: var(--primary);
+        }
+        
+        .feature-card h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+        
+        .feature-card p {
+            color: var(--dark);
+            margin-bottom: 20px;
+        }
+        
+        /* Testimonials Section */
+        .testimonials {
+            padding: 100px 0;
+            background: var(--gray);
+        }
+        
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .testimonial-card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            position: relative;
+        }
+        
+        .testimonial-card::before {
+            content: """;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 80px;
+            color: var(--primary);
+            opacity: 0.1;
+            font-family: Georgia, serif;
+        }
+        
+        .testimonial-content {
+            margin-bottom: 25px;
+            color: var(--dark);
+            font-style: italic;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+        }
+        
+        .author-info h4 {
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+        
+        .author-info p {
+            color: var(--light);
+            font-size: 14px;
+        }
+        
+        /* Pricing Section */
+        .pricing {
+            padding: 100px 0;
+            background: var(--white);
+        }
+        
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .pricing-card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 40px 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            text-align: center;
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: all 0.3s;
+        }
+        
+        .pricing-card.popular {
+            border: 2px solid var(--primary);
+            transform: scale(1.05);
+            position: relative;
+        }
+        
+        .popular-tag {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .pricing-header {
+            margin-bottom: 30px;
+        }
+        
+        .pricing-name {
+            font-size: 22px;
+            color: var(--dark);
+            margin-bottom: 15px;
+        }
+        
+        .pricing-price {
+            font-size: 48px;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .pricing-price span {
+            font-size: 16px;
+            color: var(--light);
+        }
+        
+        .pricing-features {
+            margin-bottom: 30px;
+        }
+        
+        .pricing-features ul {
+            list-style: none;
+            text-align: left;
+        }
+        
+        .pricing-features li {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .pricing-features li i {
+            color: var(--primary);
+        }
+        
+        /* FAQ Section */
+        .faq {
+            padding: 100px 0;
+            background: var(--gray);
+        }
+        
+        .faq-grid {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .faq-item {
+            background: var(--white);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        }
+        
+        .faq-question {
+            padding: 20px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--dark);
+        }
+        
+        .faq-answer {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            color: var(--dark);
+        }
+        
+        .faq-answer.active {
+            padding: 0 20px 20px;
+            max-height: 500px;
+        }
+        
+        /* CTA Section */
+        .cta {
+            padding: 100px 0;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            text-align: center;
+            color: white;
+        }
+        
+        .cta h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        
+        .cta p {
+            max-width: 700px;
+            margin: 0 auto 30px;
+            font-size: 18px;
+            opacity: 0.9;
+        }
+        
+        .cta .cta-button {
+            background: white;
+            color: var(--primary);
+            font-size: 18px;
+            padding: 15px 40px;
+        }
+        
+        .cta .cta-button:hover {
+            background: var(--gray);
+            transform: translateY(-3px);
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 70px 0 30px;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+        
+        .footer-col h3 {
+            font-size: 20px;
+            margin-bottom: 25px;
+            position: relative;
+        }
+        
+        .footer-col h3::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--primary);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 15px;
+        }
+        
+        .footer-links a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            transition: all 0.3s;
+        }
+        
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-5px);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 14px;
+            color: rgba(255,255,255,0.6);
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .hero-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .hero-buttons {
+                justify-content: center;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .hero-text {
+                max-width: 100%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero-text h1 {
+                font-size: 36px;
+            }
+            
+            .section-title h2 {
+                font-size: 30px;
+            }
+            
+            .pricing-card.popular {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="navbar">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <img src="images/full_image.png" alt="" srcset="" height="45px">
+                    </div>
+                    <span>LOBO | TM</span>
+                </div>
+                <div class="nav-links">
+                    <a href="#features">Características</a>
+                    <a href="#testimonials">Testimonios</a>
+                    <a href="#pricing">Precios</a>
+                    <a href="#faq">FAQ</a>
+                </div>
+                <button class="cta-button">Comenzar</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Gestiona tus <span>torneos deportivos</span> sin errores ni estrés</h1>
+                    <p>La solución todo-en-uno para organizar, monitorear y reportar torneos deportivos universitarios con precisión institucional.</p>
+                    <div class="hero-buttons">
+                        <button class="cta-button">Prueba Gratis</button>
+                        <button class="secondary-button">Ver Demo</button>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <div class="shape shape-1"></div>
+                    <div class="shape shape-2"></div>
+                    <img src="images/full_image.png" alt="Lobo | Tournament Manager App" class="phone-mockup">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>Todo lo que necesitas para torneos perfectos</h2>
+                <p>Diseñado específicamente para las necesidades del deporte en méxico</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Gestión de Equipos</h3>
+                    <p>Registro completo de equipos y jugadores con validación institucional. Acceso rápido a datos clave.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <h3>Programación Inteligente</h3>
+                    <p>Organiza partidos automáticamente evitando conflictos de horarios y espacios.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Reportes Ejecutivos</h3>
+                    <p>Genera reportes en PDF/Excel con estadísticas completas para la rectoría en segundos.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <h3>Notificaciones Automáticas</h3>
+                    <p>Alertas push para cambios de horario, resultados y recordatorios importantes.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Validación en Tiempo Real</h3>
+                    <p>Registro de eventos deportivos (goles, faltas) con confirmación inmediata para evitar conflictos.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <h3>Identidad Institucional</h3>
+                    <p>Personalizada con los colores y logos de tu universidad para una experiencia coherente.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials" id="testimonials">
+        <div class="container">
+            <div class="section-title">
+                <h2>Lo que dicen los organizadores</h2>
+                <p>Experiencias reales de universidades que usan Lobo | Tournament Manager</p>
+            </div>
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        "Antes perdíamos 15 horas semanales en planillas y WhatsApp. Con Lobo | Tournament Manager, todo se automatizó y los conflictos por errores desaparecieron. ¡Invaluable!"
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">RM</div>
+                        <div class="author-info">
+                            <h4>Ricardo Morales</h4>
+                            <p>Coordinador Deportes, UPP</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        "La integración con Google Calendar y los reportes automáticos han cambiado completamente cómo gestionamos nuestros torneos. La rectoría está encantada con los datos precisos."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">AG</div>
+                        <div class="author-info">
+                            <h4>Ana González</h4>
+                            <p>Directora Deportes, ITP</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        "Como capitán, tener toda la información de los rivales y poder registrar eventos en tiempo real durante los partidos es un cambio radical. ¡Nunca más discusiones sobre resultados!"
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">AT</div>
+                        <div class="author-info">
+                            <h4>Alejandro Torres</h4>
+                            <p>Capitán de Fútbol, UPP</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <div class="section-title">
+                <h2>Planes a Medida</h2>
+                <p>Elige el paquete perfecto para tu institución</p>
+            </div>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3 class="pricing-name">Básico</h3>
+                        <div class="pricing-price">$900 <span>/año</span></div>
+                        <p>Perfecto para torneos pequeños</p>
+                    </div>
+                    <div class="pricing-features">
+                        <ul>
+                            <li><i class="fas fa-check"></i> 1 torneo simultáneo</li>
+                            <li><i class="fas fa-check"></i> Hasta 10 equipos</li>
+                            <li><i class="fas fa-check"></i> Gestión básica de partidos</li>
+                            <li><i class="fas fa-check"></i> Soporte por correo</li>
+                            <li><i class="fas fa-times"></i> Reportes ejecutivos</li>
+                            <li><i class="fas fa-times"></i> Soporte 24/7 durante torneos</li>
+                        </ul>
+                    </div>
+                    <button class="secondary-button">Elegir Básico</button>
+                </div>
+                <div class="pricing-card popular">
+                    <div class="popular-tag">MÁS POPULAR</div>
+                    <div class="pricing-header">
+                        <h3 class="pricing-name">Premium</h3>
+                        <div class="pricing-price">$1,500 <span>/año</span></div>
+                        <p>Ideal para la mayoría de universidades</p>
+                    </div>
+                    <div class="pricing-features">
+                        <ul>
+                            <li><i class="fas fa-check"></i> Torneos ilimitados</li>
+                            <li><i class="fas fa-check"></i> Equipos ilimitados</li>
+                            <li><i class="fas fa-check"></i> Registro de eventos en tiempo real</li>
+                            <li><i class="fas fa-check"></i> Reportes PDF/Excel ejecutivos</li>
+                            <li><i class="fas fa-check"></i> Soporte prioritario 24/7</li>
+                            <li><i class="fas fa-check"></i> Capacitación presencial</li>
+                        </ul>
+                    </div>
+                    <button class="cta-button">Elegir Premium</button>
+                </div>
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3 class="pricing-name">Ultimate</h3>
+                        <div class="pricing-price">$3,000 <span>/año</span></div>
+                        <p>Para grandes instituciones</p>
+                    </div>
+                    <div class="pricing-features">
+                        <ul>
+                            <li><i class="fas fa-check"></i> Todo en Premium</li>
+                            <li><i class="fas fa-check"></i> Branding personalizado</li>
+                            <li><i class="fas fa-check"></i> API para integración</li>
+                            <li><i class="fas fa-check"></i> Soporte dedicado</li>
+                            <li><i class="fas fa-check"></i> Análisis avanzado</li>
+                            <li><i class="fas fa-check"></i> Gestor de eventos personal</li>
+                        </ul>
+                    </div>
+                    <button class="secondary-button">Elegir Ultimate</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq" id="faq">
+        <div class="container">
+            <div class="section-title">
+                <h2>Preguntas Frecuentes</h2>
+                <p>Todo lo que necesitas saber sobre Lobo | Tournament Manager</p>
+            </div>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        ¿Necesito conexión a internet constante?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        No. Lobo | Tournament Manager incluye un modo offline que permite registrar eventos incluso sin conexión. Los datos se sincronizarán automáticamente cuando recuperes la conexión.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        ¿Cómo se maneja la seguridad de los datos?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Utilizamos encriptación AES-256 para todos los datos sensibles y cumplimos con la normativa LGPD. Las credenciales se almacenan de forma segura con bcrypt y los tokens JWT garantizan sesiones protegidas.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        ¿Ofrecen capacitación para mi equipo?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Sí, todos los planes Premium y Ultimate incluyen videotutoriales en la app y acceso a webinars mensuales. Los planes Ultimate además incluyen una sesión presencial en tu campus.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        ¿Puedo personalizar la app con los colores de mi universidad?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Absolutamente. El plan Ultimate incluye personalización completa con tus colores institucionales, logo y elementos de marca para una experiencia coherente.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        ¿Qué pasa si necesito cancelar mi suscripción?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Puedes cancelar en cualquier momento sin penalizaciones. Tendrás acceso hasta el final del periodo anual pagado y podrás exportar todos tus datos en formatos estándar.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <h2>Transforma la gestión de tus torneos hoy</h2>
+            <p>Únete a decenas de universidades que ya eliminaron el estrés y los errores de sus torneos deportivos</p>
+            <button class="cta-button">Comenzar Prueba Gratis</button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="logo">
+                        <div class="logo-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <span>Lobo | Tournament Manager</span>
+                    </div>
+                    <p>La solución profesional para gestión de torneos deportivos en México.</p>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/angelgvillaloboss/?locale=es_LA"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.linkedin.com/in/angel-villalobos-766934310"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3>Enlaces Rápidos</h3>
+                    <ul class="footer-links">
+                        <li><a href="#features">Características</a></li>
+                        <li><a href="#testimonials">Testimonios</a></li>
+                        <li><a href="#pricing">Planes</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Legal</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Términos y Condiciones</a></li>
+                        <li><a href="#">Política de Privacidad</a></li>
+                        <li><a href="#">Cookies</a></li>
+                        <li><a href="#">Aviso Legal</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Contacto</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-envelope"></i> lobo.tm.soporte@gmail.com</li>
+                        <li><i class="fas fa-phone"></i> +52 222 120 1591</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Cholula de rivadavia, Puebla, México.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Lobo TM. Todos los derechos reservados. Diseñado con pasión en Puebla, México.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // FAQ toggle functionality
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const answer = question.nextElementSibling;
+                answer.classList.toggle('active');
+                
+                const icon = question.querySelector('i');
+                if (answer.classList.contains('active')) {
+                    icon.classList.remove('fa-chevron-down');
+                    icon.classList.add('fa-chevron-up');
+                } else {
+                    icon.classList.remove('fa-chevron-up');
+                    icon.classList.add('fa-chevron-down');
+                }
+            });
+        });
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
